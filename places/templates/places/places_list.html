@@ -1,0 +1,125 @@
+{% extends 'places/places_base.html' %}
+
+
+
+{% block places_body %}
+
+
+{% autoescape off %}
+
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Message!</strong>{{message}}
+
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+<!-- for user   display   -->
+
+{% if user.admin is False and user.is_staff is False %}
+
+<p >
+<form class="form-inline" action="#" method="GET">
+    <input class="form-control mr-sm-4" type="text" placeholder="Search" aria-label="Search" name="search" id="searchTxt" style="border-radius:50px;">
+    <span style="font-size:18px;">Search</span>
+    </form>
+</p>
+
+ <div id="places_name">
+      </div>
+
+{% for place in place_list %}
+
+    <p class="display_place" style="margin-left:1%;">
+<!--        <a href="{% url 'places:map' place.name %}"><b>{{place.name}}</b><br></a>-->
+        <a href="{% url 'place_space:space' place.name %}"><span style="font-size:20px;">{{place.name}}<br></span></a>
+    <span style="font-size:12px;">{{place.location}}</span>
+    </p>
+
+{% endfor %}
+{% endif %}
+
+
+{% if bike_obj %}
+{% for bike in bike_obj %}
+{{bike}}
+{% endfor %}
+
+{% endif %}
+
+
+{% if car_obj %}
+{% for car in car_obj %}
+{{car}}
+{% endfor %}
+
+{% endif %}
+
+
+
+<!-- for admin  display   -->
+
+{% if user.admin is True %}
+
+{% for place in place_list %}
+   {% if user == place.associate_admin  %}
+    <p>
+       <a href="{% url 'admin_function:list_of_task' place.name %}"><h3>{{place.name}}</h3><br></a>
+    {{place.location}}
+    </p>
+    {% endif %}
+
+{% endfor %}
+
+{% endif %}
+
+
+<script type="text/javascript">
+     let places_list_in_js=[]
+    {% for place in place_list %}
+    places_list_in_js.push('{{place}}')
+    {% endfor %}
+    console.log(places_list_in_js)
+
+
+    searchBtn=document.getElementById("searchTxt")
+    console.log(searchBtn)
+    searchBtn.addEventListener('input',function(){
+        textTyped=document.getElementById('searchTxt').value
+        textTyped=textTyped.toLowerCase()
+        console.log(textTyped)
+        console.log('typing')
+
+        p_class=document.getElementsByClassName('display_place')
+        Array.from(p_class).forEach(function (element){
+            console.log(element.innerText,'i am inside')
+            if (element.innerText.toLowerCase().includes(textTyped)){
+                element.style.display='block'
+            }
+            else
+            {
+                element.style.display="none"
+            }
+        })
+        for(let i=0;i<places_list_in_js.length;i++){
+            text=""
+            if (places_list_in_js[i].toLowerCase().includes(textTyped)){
+
+
+<!--                 {% verbatim %}     text+=`<a href="/places/view_maps/ ${places_list_in_js[i]} "><h3>${places_list_in_js[i]}</h3><br></a>`  {% endverbatim %}-->
+<!--                div_for_display=document.createElement("div");-->
+<!--                div_for_display.innerHTML=text-->
+<!--                div_parent=document.getElementById('places_name')-->
+<!--                div_parent.appendChild(div_for_display)-->
+            }
+        }
+
+    })
+
+
+</script>
+
+{%endautoescape%}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'user_detail/user_detail_base.html' %}
+
+{% block show_booking_detail_of_user %}
+<div class="card" style="padding:5vh;height:100%;">
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+
+    <button class="btn btn-primary" type="submit">Update</button>
+</form>
+</div>
+{% endblock %}

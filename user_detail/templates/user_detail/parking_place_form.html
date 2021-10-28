@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block registration %}
+<div class=" bg-light px-2" style="margin-right:2px;margin-left:2px;margin-bottom:4px;opacity:0.8">
+<form method="POST">
+
+    {% csrf_token %}
+
+    {% for field in form %}
+      <p> <div class="row">
+   <div class="col-md-2">
+   {{ field.label_tag }}
+
+
+   </div><div class="col-md-10 pull-left">
+   {{ field }}
+    {% for error in field.errors %}
+   <div class="row">
+   <div class="alert alert-danger">{{error}}</div>
+   </div>
+   {% endfor %}
+    {% if field.help_text %}
+   <p>{{ field.help_text }}</p>
+   {% endif %}
+
+</div>
+</div>  </p>
+ {% endfor %}
+    <button type="submit">SUBMIT</button>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends 'places/places_base.html' %}
+
+
+
+{% block places_body %}
+
+
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Message!</strong>{{message}}
+
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+
+<!--form-->
+
+<div class="card" >
+<div  style="margin-right:20%;margin-top:5%;margin-left:20%;margin-bottom:5%;opacity:0.8">
+<h4 style="text-align:center;margin-bottom:5%">Register of Place</h4>
+    <form method="POST">
+
+    {% csrf_token %}
+
+<!--    bootstrap form-->
+
+
+  <div class="form-row">
+
+
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Place Name</label>
+        {{form.name}}
+<!--      <input type="email" class="form-control" id="inputEmail4" placeholder="Email" name="name">-->
+    </div>
+
+
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Location</label>
+<!--      <input type="password" class="form-control" id="inputPassword4" placeholder="Password">-->
+    {{form.location}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputAddress">Number of Car Space</label>
+      {{form.number_of_car_space}}
+<!--    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">-->
+  </div>
+
+
+  <div class="form-group">
+    <label for="inputAddress2">Number of Bike Space</label>
+<!--    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">-->
+        {{form.number_of_bike_space}}
+
+  </div>
+
+          <div class="form-group">
+    <label for="inputAddress2">Map of Place</label>
+<!--    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">-->
+        {{form.place_link}}
+{% if form.place_link.errors %}
+              <div class="alert alert-primary" role="alert">
+    <div style="text-decoration:none">{{form.place_link.errors|striptags}}</div>
+</div>
+
+              {% endif %}
+  </div>
+
+
+
+  <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+
+<!--    endof form-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <div class="row" style="margin-bottom:2%;">-->
+<!--            <div class="col-md-5 pull right" style="padding:right:10%;padding-left:35%;">-->
+<!--             {{ form.name.label_tag}}-->
+<!--   </div><div class="col-md-5 pull-left">-->
+<!--         {{ form.name}}-->
+<!--         {% if form.location.errors %}-->
+<!--<div class="alert alert-primary" role="alert">-->
+<!--    <div style="text-decoration:none">{{form.location.errors|striptags}}</div>-->
+<!--</div>-->
+<!--        {% endif %}-->
+<!--     </div>-->
+<!--     </div>-->
+
+<!--    <div class="row" style="margin-bottom:2%;">-->
+<!--            <div class="col-md-5 pull right" style="padding:right:10%;padding-left:35%;">-->
+<!--             {{ form.location.label_tag}}-->
+<!--   </div><div class="col-md-5 pull-left">-->
+<!--         {{ form.name}}-->
+<!--         {% if form.location.errors %}-->
+<!--<div class="alert alert-primary" role="alert">-->
+<!--    <div style="text-decoration:none">{{form.location.errors|striptags}}</div>-->
+<!--</div>-->
+<!--        {% endif %}-->
+<!--     </div>-->
+<!--     </div>-->
+
+<!--   <div class="row" style="margin-bottom:2%;">-->
+<!--            <div class="col-md-5 pull right" style="padding:right:10%;padding-left:35%;">-->
+<!--             {{ form.number_of_car_space.label_tag}}-->
+<!--   </div><div class="col-md-5 pull-left">-->
+<!--         {{ form.number_of_car_space}}-->
+<!--         {% if form.number_of_car_space.errors %}-->
+<!--<div class="alert alert-primary" role="alert">-->
+<!--    <div style="text-decoration:none">{{form.number_of_car_space.errors|striptags}}</div>-->
+<!--</div>-->
+<!--        {% endif %}-->
+<!--     </div>-->
+<!--     </div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    {% for field in form %}-->
+<!--      <p> <div class="row">-->
+<!--   <div class="col-md-2">-->
+<!--   {{ field.label_tag }}-->
+
+
+<!--   </div><div class="col-md-10 pull-left">-->
+<!--   {{ field }}-->
+<!--    {% for error in field.errors %}-->
+<!--   <div class="row">-->
+<!--   <div class="alert alert-danger">{{error}}</div>-->
+<!--   </div>-->
+<!--   {% endfor %}-->
+<!--    {% if field.help_text %}-->
+<!--   <p>{{ field.help_text }}</p>-->
+<!--   {% endif %}-->
+
+<!--</div>-->
+<!--</div>  </p>-->
+<!-- {% endfor %}-->
+<!--    <button type="submit">SUBMIT</button>-->
+<!--</form>-->
+</div>
+</div>
+
+{% endblock %}

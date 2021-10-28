@@ -1,0 +1,126 @@
+{% extends 'admin_function/admin_function_base.html' %}
+
+{% block payment %}
+
+{% if not booked_by  %}
+
+<p><h3><button type="button" class="btn btn-dark">{{vehicle}}</button></h3></p>
+
+<div class="payment_table">
+<table class="table table-bordered">
+  <thead>
+    <tr>
+
+      <th scope="col">Name</th>
+      <th scope="col">Vehicle Number</th>
+      <th scope="col">Entering Time</th>
+      <th scope="col">Leaving Time</th>
+      <th scope="col">Parked Time(hrs)</th>
+      <th scope="col">Total Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">{{name}}</th>
+      <td>{{vehicle_number}}</td>
+      <td>{{Entered}}</td>
+      <td>{{Leaving}}</td>
+      <td>{{time}}</td>
+      <td>{{cost}}</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+<!--for extra money-->
+
+{% if extra_time_in_minutes %}
+  <table class="table table-bordered">
+  <thead>
+    <tr>
+
+      <th scope="col">Extra Time(min)</th>
+      <th scope="col">Extra Money</th>
+      <th scope="col">Total Cost</th>
+
+    </tr>
+  </thead>
+  <tbody>
+   <tr>
+      <td>{{extra_time_in_minutes}}</td>
+      <td>{{extra_money}}</td>
+      <td>{{grand_total_cost}}</td>
+
+    </tr>
+  </tbody>
+  </table>
+
+{% endif %}
+
+{% else %}
+
+<p><h3><button type="button" class="btn btn-dark">{{vehicle}}</button></h3></p>
+
+<div class="payment_table">
+<table class="table table-bordered">
+  <thead>
+    <tr>
+    <th scope="col">Booked By</th>
+      <th scope="col">Name</th>
+      <th scope="col">Vehicle Number</th>
+      <th scope="col">Entering Time</th>
+      <th scope="col">Leaving Time</th>
+      <th scope="col">Parked Time(hrs)</th>
+      <th scope="col">Total Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>{{booked_by}}</td>
+      <td>{{name}}</td>
+      <td>{{vehicle_number}}</td>
+      <td>{{Entered}}</td>
+      <td>{{Leaving}}</td>
+      <td>{{time}}</td>
+      <td>{{cost}}</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+<!--for extra time-->
+
+{% if extra_time_in_minutes %}
+  <table class="table table-bordered">
+  <thead>
+    <tr>
+
+      <th scope="col">Extra Time(min)</th>
+      <th scope="col">Extra Money</th>
+      <th scope="col">Total Cost</th>
+
+    </tr>
+  </thead>
+  <tbody>
+   <tr>
+      <td>{{extra_time_in_minutes}}</td>
+      <td>{{extra_money}}</td>
+      <td>{{grand_total_cost}}</td>
+
+    </tr>
+  </tbody>
+  </table>
+
+{% endif %}
+
+
+
+
+{% endif %}
+<form method="POST">
+{% csrf_token %}
+<button type="submit">Okay</button>
+</form>
+
+{% endblock %}

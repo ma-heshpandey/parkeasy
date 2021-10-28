@@ -1,0 +1,386 @@
+<!doctype html class="h-100">
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block refresh %}{% endblock %}
+
+    <script src='https://kit.fontawesome.com/e9dcbea8b6.js'></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Parking</title>
+   <link rel="stylesheet" type="text/css" href="{% static 'css/base_project/base_css.css' %}">
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_project/base_css.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_project/form_css.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_project/payment_table_css.css' %}">
+
+    {% block responsive %}{% endblock %}
+    {% block responsive_css_for_dynamic %}{% endblock %}
+    {% block responsive_css_for_man_made_template %}{% endblock %}
+
+
+<!-- javascript -->
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
+<!--        -->
+
+
+<!-- css for beauty
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
+
+
+     -->
+
+      <style>
+<!--          .modal-backdrop {-->
+<!--       position:unset !important;-->
+<!--       position:important;-->
+<!--             bottom:0px;-->
+<!--       }-->
+<!--       .modal-content {-->
+<!--  height: 100%;-->
+<!--  border-radius: 0;-->
+<!--  position:relative;-->
+<!--}-->
+
+.modal-footer {
+  border-radius: 0;
+
+  position:absolute;
+  width:100%;
+}
+
+    .mah{
+          transform: rotate(90deg);
+      }
+
+a:hover {
+color:red;
+}
+
+
+body {
+  font-family: Verdana, sans-serif;
+}
+
+
+      </style>
+
+
+
+
+  </head>
+  <body class="d-flex flex-column h-100 mx-1" style="background-color:#DCDCDC">
+
+
+
+
+  <nav class="navbar navbar-expand-lg  navbar-dark fixed-top  mb-2   bd-navbar" style="color:black;background-color:rgb(245,245,245);opacity:0.8;">
+  <a class="navbar-brand"  href="{% url 'home' %}"><span class="navbar-brand mb-0 h1 nav_bar" style="color:blue;">ParkEasy</span></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+      </li>
+<!--      <li class="nav-item active ">-->
+<!--        <a class="nav-link " href="#" tabindex="-1"><span class="navbar-brand mb-0 h1 text-dark">Home</span></a>-->
+<!--      </li>-->
+
+      <li class="nav-item active">
+        <a class="nav-link " href="{% url 'contact_us' %}" tabindex="-1" ><span class="navbar-brand mb-0 h1 " style="color:blue;font-size:15px;">Contact Us</span></a>
+      </li>
+
+
+      {% if not user.is_authenticated %}
+        <li class="nav-item active">
+        <a class="nav-link" href="{% url 'user_detail:sign_up' %}" tabindex="-1"><span class="navbar-brand mb-0 h1 " style="color:blue;;font-size:15px;">Sign Up</span></a>
+      </li>
+      {% endif %}
+
+
+    </ul>
+
+
+
+
+
+
+       <div id="registration_icon">
+ {% if user.is_authenticated %}
+           <h6 style="display:inline">  {{user.first_name}}&nbsp{{user.last_name}}</h6>
+
+ <a class="btn btn-outline-success btn-sm my-2" href="{% url 'logout' %}" role="button">Log Out</a>
+           {% if user.admin is False %}
+
+
+           <a class="btn btn-outline-success btn-sm my-2" href="{% url 'user_detail:booking_detail_of_user' %}">Dashboard</a>
+           {% else %}
+                      {% if user.associated_place %}
+                      <a class="btn btn-outline-success btn-sm my-2" href="{% url 'admin_function:list_of_task' user.associated_place.name %}">Dashboard</a>
+                      {% endif %}
+           {% endif %}
+
+  {% else %}
+
+<!-- Button trigger modal for User -->
+<button type="button" class="btn btn-outline-success btn-sm my-2" data-toggle="modal" data-target="#userlogin">
+  User Login
+</button>
+
+<!-- Modal -->
+<div class="modal fade " id="userlogin" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabels">User Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-dark">
+          <div class="container">
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="row">
+                <p>
+                    <label class="col-5" for="id_username"><span style="color:cyan">Username</span></label>
+                <input class="col-6" id="id_username" type="text" name="username" maxlength="100" required >
+                </p>
+            </div>
+            <div class="row">
+                <p>
+                    <label class="col-5" for="id_password"><span style="color:cyan">Password</span></label>
+                <input class="col-6" id="id_password" type="password" name="password" required>
+
+                </p>
+            </div>
+
+    <p>
+        <input type="checkbox" onclick="myFunctionUser()"><span style="color:cyan">Show Password</span>
+    </p>
+    <button class="btn btn-primary" type="submit">Submit</button>
+           <span style="color:cyan;"> Dont have an account?</span><a  href="{% url 'user_detail:sign_up' %}">Sign Up</a>
+
+        </form>
+    <a href="{% url 'password_reset' %}">Password Reset</a>
+
+        <script>
+            function myFunctionUser() {
+            var x=document.getElementById('id_password');
+            if (x.type=="password"){
+            x.type='text';
+            }else {
+            x.type='password';}
+            }
+        </script>
+
+
+          </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Button trigger modal for User -->
+<button type="button" class="btn btn-outline-success btn-sm my-2" data-toggle="modal" data-target="#adminlogin">
+  Admin Login
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="adminlogin" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Admin Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-dark">
+          <div class="container">
+        <form method="POST" action="{% url 'admin_login' %}">
+            {% csrf_token %}
+            <div class="row">
+                <p>
+                    <label class="col-5" for="id_admin_id"><span style="color:cyan">Username</span></label>
+                <input class="col-6" id="id_admin_id" type="text" name="username" maxlength="100" required >
+                </p>
+            </div>
+            <div class="row">
+                <p>
+                    <label class="col-5" for="id_admin_password"><span style="color:cyan">Password</span></label>
+                <input class="col-6" id="id_admin_password" type="password" name="password" required>
+
+                </p>
+            </div>
+
+    <p>
+        <input type="checkbox" onclick="myFunction()"><span style="color:cyan">Show Password</span>
+    </p>
+    <button class="btn btn-primary" type="submit">Submit</button>
+            <span style="color:cyan;"> Dont have an account?</span><a  href="{% url 'user_detail:sign_up_for_admin' %}">Sign Up</a>
+
+        </form>
+
+
+        <script>
+            function myFunction() {
+            var x=document.getElementById('id_admin_password');
+            if (x.type=="password"){
+            x.type='text';
+            }else {
+            x.type='password';}
+            }
+        </script>
+
+
+          </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+     {% endif %}
+ </div>
+  </div>
+
+</nav>
+<div style="margin-top:75px;">
+
+</div>
+
+
+
+{% block contact_us %} {% endblock %}
+
+  {% block registration %} {% endblock %}
+
+  {% block body_content %} {% endblock %}
+
+  {% block form_after_registration_mistake %} {% endblock %}
+
+  {% block user_detail %}{% endblock %}
+
+  {% block places %}  {% endblock %}
+
+  {% block vehicle_info %} {% endblock %}
+
+  {% block place_space %}  {% endblock %}
+
+  {% block admin_function %}  {% endblock %}
+
+
+<!-- this is footer -->
+
+<!--<div class="selfMadeFooter" style="position:absolute;bottom:0;width:100%">-->
+
+<!--<footer class="footer mt-auto py-3 bg-dark mt-2">-->
+<!--  <div class="container">-->
+
+
+
+
+<!--      &lt;!&ndash; Footer Links &ndash;&gt;-->
+<!--<div class="d-flex justify-content-center">-->
+<!--  <div class="facebook mx-2">-->
+<!--  <img src="{% static 'images/facebook.png' %}">-->
+<!--  </div>-->
+
+<!--   <div class="instagram mx-2">-->
+<!--  <img src="{% static 'images/twiter.png' %}">-->
+<!--  </div>-->
+
+<!--   <div class="twitter mx-2">-->
+<!--<img src="{% static 'images/gmail.png' %}">-->
+<!--  </div>-->
+
+
+<!--</div>-->
+
+<!--  </div>-->
+
+
+
+
+<!--     <div class="footer-copyright text-center py-3">© 2020 Copyright:-->
+<!--    <a href="https://mdbootstrap.com/"> ParkEasy</a>-->
+<!--  </div>-->
+
+
+<!--</footer>-->
+
+<!--</div>-->
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+  <!-- this is footer -->
+
+
+
+<footer class="footer mt-auto py-3 bg-dark mt-2">
+  <div class="container">
+
+
+
+
+      <!-- Footer Links -->
+<div class="d-flex justify-content-center">
+  <div class="facebook mx-2">
+  <img src="{% static 'images/facebook.png' %}">
+  </div>
+
+   <div class="instagram mx-2">
+  <img src="{% static 'images/twiter.png' %}">
+  </div>
+
+   <div class="twitter mx-2">
+<img src="{% static 'images/gmail.png' %}">
+  </div>
+
+
+</div>
+
+  </div>
+
+
+
+
+     <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href="/"> ParkEasy</a>
+  </div>
+
+
+</footer>
+
+
+{% block script %}{% endblock %}
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!--    <script src="{% static 'js/place_search.js' %}"></script>-->
+  </body>
+</html>

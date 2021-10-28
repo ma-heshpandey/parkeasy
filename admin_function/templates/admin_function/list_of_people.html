@@ -1,0 +1,57 @@
+{% extends 'admin_function/admin_function_base.html' %}
+
+{% block list_of_people %}
+
+{% if vehicle_list %}
+<table class="table table table-bordered">
+      <thead class="table-dark">
+        <tr >
+          <th scope="col">Name</th>
+          <th scope="col">Vehcile Number</th>
+          <th scope="col">Payment</th>
+        </tr>
+      </thead>
+    {% for name,vehicle_number in vehicle_list %}
+
+    <!--    <a href="{% url 'admin_function:display_payment' name vehicle_number space_number place_name %}"> <button type="button" class="btn btn-dark">{{name}}</button>:<button type="button" class="btn btn-light">{{vehicle_number}}</button><br></a>-->
+        <tbody>
+            <tr class="table-active font-weight-bold">
+                  <td>{{name}}</td>
+                <td>{{vehicle_number}}</td>
+                <td><button class="btn btn-success"><a href="{% url 'admin_function:display_payment' name vehicle_number space_number place_name %}"><span style="color:black;">Payment</span></a></button></td>
+            </tr>
+        </tbody>
+    {% endfor %}
+</table>
+
+{% endif %}
+
+
+
+{% if vehicle_list_for_admin %}
+    <table class="table table table-bordered">
+          <thead class="table-primary">
+            <tr >
+              <th scope="col">Name</th>
+              <th scope="col">Vehcile Number</th>
+              <th scope="col">Booked By</th>
+              <th scope="col">Payment</th>
+            </tr>
+          </thead>
+     {% for name,vehicle_number,booked_by in vehicle_list_for_admin %}
+        <br>
+<!--        <a href="{% url 'admin_function:display_payment' name vehicle_number space_number place_name booked_by %}"> <button type="button" class="btn btn-dark">{{name}}</button>:<button type="button" class="btn btn-light">{{vehicle_number}}</button>:<button type="button" class="btn btn-light">{{booked_by}}</button><br></a>-->
+        <tbody>
+                <tr class="table-active font-weight-bold">
+                      <td>{{name}}</td>
+                    <td>{{vehicle_number}}</td>
+                    <td>{{booked_by}}</td>
+                    <td><button class="btn btn-success"><a href="{% url 'admin_function:display_payment' name vehicle_number space_number place_name %}"><span style="color:black;">Payment</span></a></button></td>
+                </tr>
+        </tbody>
+
+    {% endfor %}
+    </table>
+{% endif %}
+
+{% endblock %}

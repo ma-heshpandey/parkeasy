@@ -1,0 +1,134 @@
+{% extends 'places/places_base.html' %}
+
+{% block map %}
+
+
+<div class="container-fluid">
+
+<!--    {% if user.admin is False and user.is_staff is False %}-->
+<!--    <p>-->
+
+
+<!--        <div class="card" style="border-radius:10px;" >-->
+<!--          <div class="card-body">-->
+<!--              <h4 class="card-title"><b>{{name}}</b></h4><hr>-->
+
+<!--            <div class="row">-->
+<!--          <div class="col-sm-6">-->
+<!--            <div class="card">-->
+<!--              <div class="card-body">-->
+
+<!--                  <nav aria-label="breadcrumb">-->
+<!--                      <ol class="breadcrumb">-->
+<!--                        <h5 class="card-title"><b><span style="color:blue">REGISTRATION FORM</span></b></h5><hr>-->
+<!--                      </ol>-->
+<!--                  </nav>-->
+<!--                  {% if messages %}-->
+<!--                  {% if bike %}-->
+<!--                  <nav aria-label="breadcrumb">-->
+<!--                      <ol class="breadcrumb bg-warning">-->
+<!--                        <li class="breadcrumb-item active " aria-current="page">-->
+<!--                            {% for message in messages %}-->
+<!--                                <b style="color:red;">{{message}}</b>-->
+<!--                            {% endfor %}-->
+<!--                        </li>-->
+<!--                      </ol>-->
+<!--                  </nav>-->
+
+
+<!--                   {% endif %}-->
+<!--                  {% endif %}-->
+
+<!--                     <form method="POST" action="{% url 'vehicle_info:bike_register' name %}" style="border:1px solid gray;padding:15px;border-radius:10px;">-->
+<!--                        {% csrf_token %}-->
+<!--                         <div class="form-group">-->
+<!--                             <label for="bike_number"><b><span style="color:blue">MOTOR BIKE</span></b></label>-->
+<!--                    <input type="text" class="form-control" id="bike_number" name="bike_number" placeholder="Example:Ba 1 cha 1234" required>-->
+<!--                 </div>-->
+
+
+<!--                     <button  class="btn btn-white btn-outline-secondary btn-block"  type="submit" class="btn btn-primary" data-toggle="modal" data-target="#motor_bike" title="Click here to register"><h1><i class='fas fa-motorcycle'></i></h1></button>-->
+<!--                     </form>-->
+
+
+<!--              </div>-->
+<!--            </div>-->
+<!--      </div>-->
+<!--      <div class="col-sm-6">-->
+<!--        <div class="card">-->
+<!--          <div class="card-body" >-->
+
+
+<!--              <nav aria-label="breadcrumb">-->
+<!--                      <ol class="breadcrumb">-->
+<!--                        <h5 class="card-title"><b><span style="color:blue">REGISTRATION FORM</span></b></h5><hr>-->
+<!--                      </ol>-->
+<!--                  </nav>-->
+<!--                  {% if messages %}-->
+<!--                    {% if car %}-->
+<!--                  <nav aria-label="breadcrumb">-->
+<!--                      <ol class="breadcrumb bg-warning">-->
+<!--                        <li class="breadcrumb-item active " aria-current="page">-->
+<!--                            {% for message in messages %}-->
+<!--                                <b style="color:red;">{{message}}</b>-->
+<!--                            {% endfor %}-->
+<!--                        </li>-->
+<!--                      </ol>-->
+<!--                  </nav>-->
+<!--                    {% endif %}-->
+
+
+<!--                  {% endif %}-->
+
+<!--                 <form method="POST" action="{% url 'vehicle_info:car_register' name %}" style="border:1px solid gray;padding:15px;border-radius:10px;">-->
+<!--                     {% csrf_token %}-->
+<!--                         <div class="form-group">-->
+<!--                             <label for="car_number"><b><span style="color:blue">CAR</span></b></label>-->
+<!--                            <input type="text" class="form-control" id="car_number" name="car_number" placeholder="Example:Ba 1 cha 1234" required>-->
+<!--                         </div>-->
+
+
+<!--                             <button  class="btn btn-white btn-outline-secondary btn-block"  type="submit" class="btn btn-primary" data-toggle="modal" data-target="#motor_bike" title="Click here to register"><h1><i class='fas fa-car-side'></i></h1></button>-->
+<!--                 </form>-->
+
+
+
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--     </div>-->
+<!--</div>-->
+<!--</p>-->
+
+<!--{% endif %}-->
+
+
+
+
+
+
+
+
+{% if name == 'Baneshwor Parking' %}
+Map of destination parking
+<p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14130.92710846828!2d85.330999211322!3d27.694683772905243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19b4e4a034ff%3A0x2042b7f7569bbde0!2sPay%20Parking!5e0!3m2!1sen!2snp!4v1590428998689!5m2!1sen!2snp" width="1600" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe></p>
+{% endif %}
+
+{% if name == 'Baneshwor Parking' %}
+
+{% endif %}
+
+</div>
+
+
+
+
+
+<script>
+
+</script>
+
+
+
+{% endblock %}

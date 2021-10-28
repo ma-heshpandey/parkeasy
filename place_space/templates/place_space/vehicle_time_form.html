@@ -1,0 +1,85 @@
+{% extends 'place_space/place_space_base.html' %}
+{% block place_form %}
+
+<div class="container-fluid mt-3">
+<!--This div includes form -->
+<div class="row" >
+  <div class="col-sm-6" style="h">
+    <div class="card" style="border-radius:10px;">
+      <div class="card-body">
+        <h5 class="card-title">Enter Date and Time</h5>
+
+          <div class="card">
+              <h5 class="card-header">Registration</h5>
+              <div class="card-body">
+
+<!--  this is for showing user to tell place is already booked-->
+                  {% if messages %}
+                  <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                          {% for message in messages %}
+                        <li class="breadcrumb-item active" aria-current="page">{{message}}</li>
+                           {% endfor %}
+                      </ol>
+                  </nav>
+                  {% endif %}
+<!--end for showing messages                  -->
+
+
+
+
+
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                     <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+
+              </div>
+          </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+<!--    end for form-->
+
+  <div class="col-sm-6">
+    <div class="card" style="border-radius:10px;">
+  <div class="card-header bg-info">
+      <b>Guildlines</b>
+  </div>
+  <div class="card-body">
+
+      <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Must Read</h5><hr>
+         <ul>
+            <li>Please,Don't Enter Past Dates </li>
+            <li>Minimum Interval For Parking is 10 Minutes  </li>
+            <li>You  Will Be Charged For Booking ,If cancellation Is Not Done Before 2 hours.   </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+  </div>
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

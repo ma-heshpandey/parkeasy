@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+
+
+{% block form_after_registration_mistake %}
+
+<!--admin form-->
+<style>
+          .modal-backdrop {
+       position:unset !important;
+<!--       position:important;-->
+             bottom:0px;
+       }</style>
+
+
+<div class="card ">
+
+
+<div class=" px-2" style="margin-right:25%;margin-top:3%;margin-left:20%;margin-bottom:10%;border-radius:5%;">
+
+    <h4 style="text-align:center;margin-bottom:5%;margin-left:10%;margin-top:2%">Login</h4>
+
+    <form method="POST">
+ {% csrf_token %}
+
+<div class="row" style="margin-bottom:2%;">
+            <div class="col-md-5 pull right" style="padding-left:40%;">
+       <div style="padding-top:20%"><i class="fas fa-user" style="font-size:28px;"></i></div>
+   </div><div class="col-md-5 pull-left">
+                 <input id="id_username" type="text" name="username" maxlength="100" required placeholder="User Name">
+     </div>
+     </div>
+
+
+
+<div class="row" style="margin-bottom:2%;">
+
+          <div class="col-md-5 pull right" style="padding:right:10%;padding-left:40%;">
+
+       <div style="padding-top:20%"><i class="fas fa-lock" style="font-size:28px;"></i></div>
+   </div><div class="col-md-5 pull-left">
+
+                     <input id="id_password" type="password" name="password" required placeholder="Password">
+
+     </div>
+     </div>
+
+
+        <div class="row" style="margin-bottom:2%;">
+
+          <div class="col-md-5 pull right" style="padding:right:10%;padding-left:40%;">
+
+       <div style="padding-top:20%"><span style="font-size:28px;"></span></div>
+   </div><div class="col-md-5 pull-left">
+<a href="{% url 'user_detail:sign_up' %}" style="margin:left:20%;">Sign Up</a>
+
+<!--                     <input id="id_password" type="password" name="password" required placeholder="Password">-->
+
+     </div>
+     </div>
+
+
+<!--<a href="/" style="margin:left:20%;">Sign Up</a>-->
+
+    <button type="submit" class="btn btn-primary" style="margin-left:50%;margin-top:5%;text-align:center">Login</button>
+    </form>
+
+    {% for message in messages %}
+<div class="alert alert-warning" role="alert">
+  {{message}}
+</div>
+{% endfor %}
+</div>
+</div>
+
+</div>
+
+
+
+<!--end of form-->
+
+
+<!--<div class="card" style="height:100%;">-->
+<!--<style>-->
+<!--          .modal-backdrop {-->
+<!--       position:unset !important;-->
+<!--&lt;!&ndash;       position:important;&ndash;&gt;-->
+<!--             bottom:0px;-->
+<!--       }</style>-->
+
+<!--<div class="card" style="height:100%;">-->
+
+<!--<div class="form">-->
+<!--<form method="POST" >-->
+<!--    {% csrf_token %}-->
+
+<!--    <p>-->
+<!--        <label for="id_username">Username</label>-->
+<!--        <input id="id_username" type="text" name="username" maxlength="100" required >-->
+<!--    </p>-->
+
+<!--    <p>-->
+<!--        <label for="id_password">Password</label>-->
+<!--            <input id="id_password" type="password" name="password" required>-->
+<!--        </label>-->
+<!--    </p>-->
+
+<!--    <p>-->
+<!--    <input type="checkbox" onclick="myFunction()">Show Password-->
+<!--    </p>-->
+
+<!--    <button type="submit">Click</button>-->
+<!--</form>-->
+<!--</div>-->
+<!--</div>-->
+<!--<script>-->
+<!--    function myFunction() {-->
+<!--    var x=document.getElementById('id_password');-->
+<!--    if (x.type=="password"){-->
+<!--    x.type='text';-->
+<!--    }else {-->
+<!--    x.type='password';}-->
+<!--    }-->
+<!--</script>-->
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

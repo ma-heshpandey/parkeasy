@@ -1,0 +1,677 @@
+{% extends 'place_space/place_space_base.html' %}
+{% load static %}
+{% block place_space_body %}
+
+{% block responsive %}
+
+<link rel="stylesheet" href="{% static 'css/space_responsive/responsive_file.css' %}" type="text/css">
+<style>
+@media only screen and (min-width:1275px){
+
+    .container_for_vehicle_display_and_form{
+    display:grid;
+    grid-template-columns:70vw 30vw;
+    }
+
+}
+
+</style>
+{% endblock %}
+
+{% for field, errors in form.errors.items %}
+    {% for error in errors %}
+        {{error}}
+    {% endfor %}
+{% endfor %}
+
+
+
+<!--nextdiv-->
+
+
+
+<!--hr line-->
+
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Message!</strong>{{message}}
+
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+
+
+
+{% if place_obj.place_overview_file %}
+
+<button onclick="MarkMyBooking()" class="btn btn-primary btn-sm" style="display:inline;width:150px;margin-bottom:3px;">Show My Booking</button>
+
+{% endif %}
+
+
+
+    <div class="container_for_vehicle_display_and_form" >
+
+  <div class="first_item" style="background-color:#6c6c6c;border-radius:10px">
+
+{% if place_obj.place_overview_file %}
+
+
+
+        <div style="display:none;">{{place_obj.display_text_file}}</div>
+
+
+{% with template_name=place_obj.name|stringformat:"s"|add:".html" %}
+        {% include template_name %}
+    {% endwith %}
+
+
+      <div class="line1" style="background-color:white;width:100px;height:px;">
+
+      </div>
+
+<!--      <style>-->
+<!--          .first_item{-->
+<!--    background-image:url('/static/images/road_bg.jpg')-->
+<!--}-->
+<!--      </style>-->
+
+      {% else %}
+
+    {% block responsive_css_for_dynamic %}
+      <style>
+
+
+
+
+.first_item{
+    padding-top:5vh;
+    padding-bottom:5vh;
+}
+
+
+@media only screen and (min-width:1275px){
+
+    .container_for_vehicle_display_and_form{
+    display:grid;
+    grid-template-columns:70vw 30vw;
+    }
+
+ .bike_display {
+    display:grid;
+    grid-template-columns:repeat(10,auto);
+
+    }
+
+    .car_display {
+    display:grid;
+    grid-template-columns:repeat(5,auto);
+
+    }
+
+    .pan {
+    height:10vh;
+    }
+
+    .pan button {
+    height:100%;
+    }
+
+    .pan button i {
+    font-size:40px;
+    }
+
+
+
+
+
+}
+
+@media only screen and (max-width:1270px){
+
+.container_for_vehicle_display_and_form{
+    display:block;
+
+    }
+
+.pan {
+    height:10vh;
+    }
+
+.pan button {
+    height:100%;
+    }
+
+
+
+ .bike_display {
+    display:grid;
+    grid-template-columns:repeat(10,auto);
+
+    }
+
+    .car_display {
+    display:grid;
+    grid-template-columns:repeat(5,auto);
+
+    }
+
+
+.pan button i {
+    font-size:15px;
+    }
+
+.forForm{
+float:none !important;
+width:100% !important;
+}
+
+.forVehicleDisplay{
+float:none !important;
+width:100% !important;
+}
+}
+
+
+</style>
+      {% endblock %}
+
+
+<div class="bike_display">
+      {% for i in total_no_of_bike %}
+
+
+                 <div class="pan" id="B{{i|add:'1'}}" > <button style="width:100%;" ><i
+                           class='fas fa-motorcycle'>
+                   <span style=""></span></i></button></div>
+            {% endfor %}
+</div>
+<br>
+
+<div class="car_display">
+
+      {% for i in total_no_of_car %}
+
+
+                 <div class="pan" id="C{{i|add:'1'}}" > <button style="width:100%;" ><i
+                           class='fas fa-car'>
+                   <span style=""></span></i></button></div>
+            {% endfor %}
+
+</div>
+
+
+
+      {% endif %}
+
+
+
+<!--<div class="bike_display">-->
+
+
+<!--    </div>-->
+
+<!--      <br>-->
+
+<!--      <div class="car_display">-->
+
+<!--                </div>-->
+
+<!--{% if place_obj.place_overview_file %}-->
+<!--      {% autoescape off %}-->
+<!--        {{place_obj..display_text_file}}-->
+<!--    {% endautoescape %}-->
+
+<!--      {% else %}-->
+
+
+
+<!-- {% endif %}-->
+
+</div>
+
+  <div class="second_item"><div  class="mt-2 p-2 mb-1 forForm" style="width:100%;float-right;border:1px solid black;border-radius:10px;background-color:black;">
+
+            <div class="card" style="width: 100%">
+              <div class="card-body">
+                <h5 class="card-title ">Search The Vacant Place</h5><hr>
+                <h6 class="card-subtitle mb-4 text-muted">Booking is done for today only!</h6>
+
+                    <form method="POST" action="{% url 'place_space:search_the_space' place_name %}">
+                        {% csrf_token %}
+                        {{form.as_p}}
+
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </form>
+                    <hr>
+
+
+
+                  <div class="card" style="width:100%">
+                      <div class="card-header bg-primary">
+                        Information
+                      </div>
+                      <div class="card-body">
+
+                        <ul>
+                            <li><span style="color:#66ff00;font-size:30px;"><b>Green</b></span> color indicates the vacant</li>
+                            <li>You can click on green slots indicated by vehicle logo</li>
+                            <li><span style="color:#CCCC00;font-size:30px;"><b>Yellow</b></span> color indicates the booked slots for specfic time.</li>
+                            <li><span style="color:red;font-size:30px;"><b>Red</b></span> slots indicates slots not available.</li>
+                        </ul>
+
+                      </div>
+                  </div>
+
+
+              </div>
+            </div>
+</div>
+
+  </div>
+    </div>
+
+
+<!--start of right div-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+{% block script %}
+
+<script>
+
+
+{% if first_entry %}
+
+
+
+
+     let java_vacant_list_of_bike=[]
+     let java_vacant_list_of_car=[]
+     let java_booked_list=[]
+     let java_my_bookings=[]
+
+<!--     for showing booking_list-->
+
+        {% for vacant in bike_vacant_space_list %}
+            java_vacant_list_of_bike.push('{{vacant}}')
+        {% endfor %}
+
+         {% for vacant in car_vacant_space_list %}
+            java_vacant_list_of_car.push('{{vacant}}')
+        {% endfor %}
+
+
+        {% for booked in booked_space_list %}
+            java_booked_list.push('{{booked}}')
+        {% endfor %}
+
+   {% for my_space in my_bookings %}
+            java_my_bookings.push('{{my_space}}')
+        {% endfor %}
+
+
+    class_collection_list=document.getElementsByClassName('pan')
+
+
+    <!--to check whether place are booked or vacant-->
+    function check_for_vacant(){
+        Array.from(class_collection_list).forEach(function (element,index){
+                a=document.getElementsByClassName('pan')[index].id
+
+                if (java_vacant_list_of_bike.includes(a))
+                   {
+                        document.getElementsByClassName('pan')[index].children[0].style.backgroundColor="#66ff00"
+                        document.getElementsByClassName('pan')[index].children[0].children[0].style.color="black"
+                        document.getElementsByClassName('pan')[index].children[0].setAttribute('data-toggle',"modal")
+                        document.getElementsByClassName('pan')[index].children[0].setAttribute('data-target','#'+'a'+a)
+
+                        {% if user.admin is False %}
+
+                        {% endif %}
+                }
+
+                if (java_vacant_list_of_car.includes(a))
+                {
+                        document.getElementsByClassName('pan')[index].children[0].style.backgroundColor="#66ff00"
+                        document.getElementsByClassName('pan')[index].children[0].children[0].style.color="black"
+
+                        document.getElementsByClassName('pan')[index].children[0].setAttribute('data-toggle',"modal")
+                        document.getElementsByClassName('pan')[index].children[0].setAttribute('data-target','#'+'a'+a)
+                        element.removeAttribute('href')
+                         {% if user.admin is False %}
+
+                        {% endif %}
+                }
+
+
+        })
+    }
+
+    function check_for_booked(){
+        Array.from(class_collection_list).forEach(function (element,index){
+                a=document.getElementsByClassName('pan')[index].id
+
+                if (java_booked_list.includes(a)){
+                        document.getElementsByClassName('pan')[index].children[0].style.backgroundColor="yellow"
+                        document.getElementsByClassName('pan')[index].children[0].title="Search The Place "
+                        document.getElementsByClassName('pan')[index].removeAttribute('href')
+                        document.getElementsByClassName('pan')[index].children[0].setAttribute('data-toggle',"modal")
+                        document.getElementsByClassName('pan')[index].children[0].setAttribute('data-target','#'+'a'+a)
+                        element.addEventListener('click',function(){
+                            alert('The place you are clicking is booked for sometime. If slots are not green search place in forms shown in right side ')
+                        })
+
+                }
+
+
+        })
+    }
+
+
+    check_for_vacant()
+    check_for_booked()
+
+    element_for_modal=document.createElement('div')
+   element_for_modal.class='modal_for_vacant'
+   element_for_modal.innerHTML=`<div class="modal fade modal_for_vacant" id="ModalExample" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Form</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form method="POST" action='/place_space/green_slots/{{place_name}}/'>
+                                {% csrf_token %}
+                                {{register_form.as_p}}
+
+                                <a href='/place_space/green_slots/{{place_name}}/'><button class="btn btn-primary" type="submit">Submit</button></a>
+
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--                                <button type="button" class="btn btn-primary">Save changes</button>-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+<!--                        for booked modal-->
+
+                        <div class="modal fade modal_for_booked" id="ModalExample" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Form</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form method="POST" action='/place_space/booked_slots/{{place_name}}/'>
+                                Kindly look up booked time for space.
+                                <hr>
+                                {% csrf_token %}
+<!--                        1.1 -->
+                               {{register_form_for_booked_space.as_p}}
+
+<!--                          1.3 -->
+                               <a href='/place_space/booked_slots/{{place_name}}/'><button class="btn btn-primary" type="submit">Submit</button></a>
+
+                                </form>
+                                <div id='show_booked_dates_for_space'></div>
+
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--                                <button type="button" class="btn btn-primary">Save changes</button>-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        `
+
+   modal_element=document.body.appendChild(element_for_modal)
+
+   modal_collection_for_vaccant=document.getElementsByClassName('modal_for_vacant')
+   modal_collection_array=Array.from(modal_collection_for_vaccant)
+   Array.from(class_collection_list).forEach(function (element,index){
+
+        element.addEventListener('click',function(){
+            console.log(element)
+            console.log('i am element')
+
+            if (java_vacant_list_of_bike.includes(element.id) || java_vacant_list_of_car.includes(element.id)){
+                                 modal_collection_for_vaccant=document.getElementsByClassName('modal_for_vacant')
+                                 modal_collection_array=Array.from(modal_collection_for_vaccant)
+                                console.log('hi')
+                                id_space_number=document.getElementById('id_space_number')
+<!--                                console.log(id_space_number)-->
+                                id_space_number.value=element.id
+                                modal_collection_array[0].id='a'+element.id
+            }
+
+
+            console.log(java_vacant_list_of_bike.includes(element.id) || java_vacant_list_of_car.includes(element.id))
+            console.log(java_booked_list)
+            if (java_booked_list.includes(element.id)) {
+                                modal_collection_for_booked=document.getElementsByClassName('modal_for_booked')
+                                modal_collection_array=Array.from(modal_collection_for_booked)
+                                console.log('hi inside booked')
+
+                                function fetch_booked(){
+                                url=`/place_space/fetch_booked/${element.id}/{{place_name}}`
+                                fetch(url).then((response)=>{
+                                                   return response.json();
+                                                        }).then((data)=>{
+                                                        console.log(data)
+                                                        console.log(data.bike.length)
+                                                        console.log(data.bike[0])
+
+
+                                                        booked_date=`<div class="card">
+                                                                        <div class="card-body">The Space is booked For <table class="table table-bordered">
+                                                                          <thead>
+                                                                            <tr>
+
+                                                                              <th scope="col">Entering Time</th>
+                                                                              <th scope="col">Leaving Time</th>
+
+                                                                            </tr>
+                                                                          </thead>
+                                                                          <tbody>`
+                                                        for (i=0;i<data.bike.length;i++){
+                                                            console.log(data.bike[i])
+                                                            booked_date=booked_date+`<tr><td>`+data.bike[i].entering_time+`</td><td>`+data.bike[i].leaving_time+`</td></tr>`
+
+                                                        }
+                                                        booked_date=booked_date+'</tbody></table></div></div>'
+                                                        booked_date_element=document.getElementById('show_booked_dates_for_space')
+                                                        console.log(booked_date_element)
+                                                        booked_date_element.innerHTML=booked_date
+
+                                                        })
+
+                                }
+                                id_space_number=document.getElementById('id_space_number1')
+<!--                    1.2          -->
+                      id_space_number.value=element.id
+                                modal_collection_array[0].id='a'+element.id
+                                fetch_booked()
+
+
+            }
+        })
+    })
+
+
+<!--   console.log(document.getElementsByClassName('modal'))-->
+<!--   console.log(modal_collection_array)-->
+
+    <!--End of checking-->
+
+<!--    to mark bookings-->
+
+    function MarkMyBooking(e){
+        var i;
+                console.log('gffgfgddfdsfdsdsfddfdsddfds')
+                console.log(java_my_bookings)
+
+        for(i=0 ;i<java_my_bookings.length;i++)
+        {
+
+        obtain_id_of_my_booking=document.getElementById(java_my_bookings[i])
+        obtain_id_of_my_booking.children[0].style.backgroundColor="red"
+
+        }
+    }
+
+
+
+{% endif %}
+
+
+
+
+{% if other_then_first %}
+
+     let vacant_list_for_user=[]
+     {% for vacant in available_space %}
+            vacant_list_for_user.push('{{vacant}}')
+     {% endfor %}
+
+     class_collection_list=document.getElementsByClassName('pan')
+
+   function check_for_vacant(){
+   let modal_html=''
+        Array.from(class_collection_list).forEach(function (element,index){
+
+                a=document.getElementsByClassName('pan')[index].id
+                entering_time=new Date('{{entering_time}}')
+                leaving_time=new Date('{{leaving_time}}')
+                entering_time=String(entering_time)
+                leaving_time=String(leaving_time)
+                place_name=String('{{place_name}}')
+                if (vacant_list_for_user.includes(a))
+                {
+
+                        document.getElementsByClassName('pan')[index].children[0].style.backgroundColor="#66ff00"
+                        document.getElementsByClassName('pan')[index].children[0].setAttribute('data-toggle',"modal")
+                        document.getElementsByClassName('pan')[index].children[0].setAttribute('data-target','#'+'a'+a)
+                        element.removeAttribute('href')
+
+
+
+                }
+
+        })
+
+
+
+   }
+
+
+   function check_for_booked(){
+        Array.from(class_collection_list).forEach(function (element,index){
+                a=document.getElementsByClassName('pan')[index].id
+
+                if (vacant_list_for_user.includes(a)==false){
+<!--                        document.getElementsByClassName('pan')[index].children[0].children[0].style.color="#B22222" &lt;!&ndash;red color&ndash;&gt;-->
+                        document.getElementsByClassName('pan')[index].children[0].style.backgroundColor="#B22222" <!--red color-->
+                        document.getElementsByClassName('pan')[index].children[0].title="Search The Place "
+                        document.getElementsByClassName('pan')[index].removeAttribute('href')
+
+                        element.addEventListener('click',function(){
+                            alert('The place you are clicking is already booked for another person at same time ')
+                        })
+
+                }
+
+
+        })
+    }
+
+
+    check_for_vacant()
+    check_for_booked()
+
+   element_for_modal=document.createElement('div')
+   element_for_modal.class='for_modal'
+   element_for_modal.innerHTML=`<div class="modal fade" id="ModalExample" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Form</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form method="POST" action="/place_space/proceeded_after_user_searched/{{place_name}}/">
+                                {% csrf_token %}
+                                {{register_form.as_p}}
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--                                <button type="button" class="btn btn-primary">Save changes</button>-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>`
+
+   modal_element=document.body.appendChild(element_for_modal)
+
+   modal_collection=document.getElementsByClassName('modal')
+   modal_collection_array=Array.from(modal_collection)
+   Array.from(class_collection_list).forEach(function (element,index){
+        element.addEventListener('click',function(){
+                                console.log('hi')
+                                id_space_number=document.getElementById('id_space_number')
+                               id_space_number.value=element.id
+                                modal_collection_array[0].id='a'+element.id
+        })
+    })
+
+   id_register_entering_time=document.getElementById('id_register_entering_time')
+   id_register_entering_time.value=new Date('{{entering_time}}')
+   id_register_leaving_time=document.getElementById('id_register_leaving_time')
+   id_register_leaving_time.value=new Date('{{leaving_time}}')
+   console.log(id_entering_time)
+<!--   id_vehicle_number=document.getElementById('id_vehicle_number')-->
+<!--   id_vehicle_number.value=new Date('{{entering_time}}')-->
+   console.log(document.getElementsByClassName('modal'))
+   console.log(modal_collection_array)
+
+{% endif %}
+
+
+
+
+
+
+
+</script>
+
+
+
+{% endblock %}
+
+

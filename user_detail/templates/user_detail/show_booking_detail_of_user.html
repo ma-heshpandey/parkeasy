@@ -1,0 +1,329 @@
+{% extends 'user_detail/user_detail_base.html' %}
+
+{% block show_booking_detail_of_user %}
+
+    {% block responsive %}
+<style>
+
+
+
+
+
+</style>
+
+{% endblock %}
+
+
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+   {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+
+
+
+
+
+<div class="card" style="width:100%;" >
+  <div class="card-body" style="width:100%;" >
+      <h6 style="display:inline" class="card-title">Booking List</h6>
+
+<a href="{% url 'user_detail:update_user_info' %}">
+      <button class="btn btn-secondary btn-sm" style="margin-left:90%;">Update Profile</button></a>
+
+      {% if bike_list %}
+
+<table class="table table-striped table-bordered" style="width:100%;" >
+  <thead>
+    <tr>
+        <th scope="col">Bike</th>
+      <th scope="col">Entering Date</th>
+      <th scope="col">Leaving Date</th>
+      <th scope="col">Place</th>
+      <th scope="col">Vehicle Number</th>
+      <th scope="col">Space Number</th>
+      <th scope="col">Maps</th>
+    </tr>
+  </thead>
+{% for bikes in bike_list %}
+
+
+        <tr>
+      <td>{{bikes.0}}</td>
+      <td>{{bikes.1}}</td>
+      <td>{{bikes.2}}</td>
+      <td>{{bikes.3}}</td>
+      <td>{{bikes.4}}&nbsp<a href="" data-toggle="modal" data-target="#{{bikes.5}}"   style="font-size:15px;text-decoration:none;"> Edit</a></td>
+            <td>{{bikes.5}}
+                {% if bikes.7 %}
+                <a href="{% url 'user_detail:delete_space' bikes.6 %}" style="font-size:10px;text-decoration:none;margin-right:0">Delete</a></td>
+                {% endif %}
+              <td><a href="{{bikes.8}}"> Click Here </a></td>
+
+        </tr>
+
+
+
+
+{% endfor %}
+
+  </tbody>
+</table>
+
+
+
+{% endif %}
+
+
+{% if car_list %}
+<!--for car-->
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+        <th scope="col">Car &nbsp </th>
+      <th scope="col">Entering Date</th>
+      <th scope="col">Leaving Date</th>
+      <th scope="col">Place</th>
+      <th scope="col">Vehicle Number</th>
+      <th scope="col">Space Number</th>
+      <th scope="col">Map</th>
+
+    </tr>
+  </thead>
+{% for cars in car_list %}
+
+
+        <tr>
+      <td>{{cars.0}}</td>
+      <td>{{cars.1}}</td>
+      <td>{{cars.2}}</td>
+      <td>{{cars.3}}</td>
+      <td>{{cars.4}}&nbsp<a href="" data-toggle="modal" data-target="#{{cars.5}}"  style="font-size:15px;text-decoration:none"> Edit</a></td>
+                  <td>{{cars.5}}
+                {% if cars.7 %}
+                <a href="{% url 'user_detail:delete_space_car' cars.6 %}" style="font-size:10px;text-decoration:none;margin-right:0">Delete</a></td>
+                {% endif %}
+                          <td><a href="{{cars.8}}"> Click Here </a></td>
+
+
+
+    </tr>
+
+{% endfor %}
+
+  </tbody>
+
+</table>
+{% endif %}
+        </div>
+</div>
+
+
+<a href="{% url 'places:place' %}"><button  class="btn btn-primary btn-sm" >Book Another</button></a>
+
+
+
+{% if bike_list %}
+{% for bikes in bike_list %}
+
+
+
+
+          <!--modal for editing vehicle number-->
+
+<div class="modal fade" id="{{bikes.5}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="#exampleModalLabel">Form </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+      <form method="POST" action="{% url 'user_detail:change_the_vehicle_number' bikes.3 bikes.4 %}">
+
+  <div class="form-group">
+      {% csrf_token %}
+    <label for="exampleInputEmail1">Vehicle Number</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ba 1 ba 1234" name="vehicle_number_to_change" value="{{bikes.4}}">
+    <small id="vehicle_number_to_change" class="form-text text-muted">Enter Vehicle number as mentioned in your vehicle.</small>
+  </div>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+
+            </form>
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<!--end of modal -->
+
+{% endfor %}
+{% endif %}
+{% if car_list %}
+{% for cars in car_list %}
+
+<!--modal for editing vehicle number-->
+
+<div class="modal fade" id="{{cars.5}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="#exampleModalLabel">Form </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+
+  <form method="POST" action="{% url 'user_detail:change_the_vehicle_number' cars.3 cars.4 %}">
+  <div class="form-group">
+
+      {% csrf_token %}
+    <label for="exampleInputEmail1">Vehicle Number</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ba 1 ba 1234" name="vehicle_number_to_change">
+    <small id="vehicle_number_to_change" class="form-text text-muted">Enter Vehicle number as mentioned in your vehicle.</small>
+
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+  </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<!--end of modal -->
+
+{% endfor %}
+
+{% endif %}
+
+
+
+<!--modal for editing vehicle number-->
+
+<!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--  <div class="modal-dialog" role="document">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="exampleModalLabel">Form </h5>-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--          <span aria-hidden="true">&times;</span>-->
+<!--        </button>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        <form>-->
+
+<!--  <div class="form-group" method="POST" >-->
+<!--      {% csrf_token %}-->
+<!--    <label for="exampleInputEmail1">Vehicle Number</label>-->
+<!--    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ba 1 ba 1234" name="vehicle_number_to_change">-->
+<!--    <small id="vehicle_number_to_change" class="form-text text-muted">Enter Vehicle number as mentioned in your vehicle.</small>-->
+<!--  </div>-->
+<!--                    <button type="button" class="btn btn-primary">Save changes</button>-->
+
+<!--            </form>-->
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+
+
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--end of modal -->
+
+<!--<div class="container">-->
+
+<!--<div class="card" style="width:80%">-->
+<!--  <div class="card-header bg-light">-->
+<!--      <span style="color:blue"><b>Booking Detail</b></span>-->
+<!--  </div>-->
+<!--  <div class="card-body">-->
+
+
+<!--        <div class="container">-->
+
+<!--         <div class="row my-2">-->
+<!--            <div class="col-sm-4">Vehicle Type</div>-->
+<!--            <div class="col-sm-2">:</div>-->
+<!--            <div class="col-sm-6">{{ vehicle }}</div>-->
+<!--          </div>-->
+
+
+<!--           <div class="row my-2">-->
+<!--            <div class="col-sm-4">Vehicle Number</div>-->
+<!--            <div class="col-sm-2">:</div>-->
+<!--            <div class="col-sm-6">{{ vehicle_number }}</div>-->
+<!--          </div>-->
+
+<!--          <div class="row my-2">-->
+<!--            <div class="col-sm-4">User Name</div>-->
+<!--            <div class="col-sm-2">:</div>-->
+<!--            <div class="col-sm-6">{{ user.get_full_name }}</div>-->
+<!--          </div>-->
+
+<!--         <div class="row my-2">-->
+<!--            <div class="col-sm-4">Parking Place</div>-->
+<!--            <div class="col-sm-2">:</div>-->
+<!--            <div class="col-sm-6">{{ place_name }}</div>-->
+<!--          </div>-->
+
+<!--            <div class="row my-2">-->
+<!--            <div class="col-sm-4">Space Number</div>-->
+<!--            <div class="col-sm-2">:</div>-->
+<!--            <div class="col-sm-6">{{ related_space }}</div>-->
+<!--        </div>-->
+
+
+<!--           <div class="row my-2">-->
+<!--            <div class="col-sm-4">Entering Time</div>-->
+<!--            <div class="col-sm-2">:</div>-->
+<!--            <div class="col-sm-6">{{ entering_time }}</div>-->
+<!--          </div>-->
+
+
+<!--      <div class="row my-2">-->
+<!--            <div class="col-sm-4">Leaving Time</div>-->
+<!--            <div class="col-sm-2">:</div>-->
+<!--            <div class="col-sm-6">{{ leaving_time }}</div>-->
+<!--        </div>-->
+
+
+
+
+
+<!--           </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--</div>-->
+
+
+
+
+<!--<script>-->
+<!--function refreshPage(){-->
+<!--    window.location.reload();-->
+<!--}-->
+<!--</script>-->
+
+
+
+
+{% endblock %}

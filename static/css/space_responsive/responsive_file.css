@@ -1,0 +1,12 @@
+@media only screen and (max-width:1270px){
+
+.forForm{
+float:none !important;
+width:100% !important;
+}
+
+.forVehicleDisplay{
+float:none !important;
+width:100% !important;
+}
+}

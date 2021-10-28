@@ -1,0 +1,43 @@
+{% extends 'place_space/place_space_base.html' %}
+{% block place_form %}
+
+{% for message in messages %}
+
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Sorry!</strong>{{message}}
+
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+
+
+<div class="card">
+  <div class="card-body">
+
+
+
+<form method="POST">
+{% csrf_token %}
+
+
+{% for field in form %}
+ {{ field.label_tag }}
+{{field}}
+
+{% for error in field.errors %}
+   <div class="row">
+   <div class="alert alert-danger">{{error}}</div>
+   </div>
+   {% endfor %}
+
+
+
+{% endfor %}
+    <br>
+    <button class="btn btn-primary">Submit</button>
+  </form>
+ </div>
+</div>
+{% endblock %}

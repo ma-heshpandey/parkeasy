@@ -1,0 +1,30 @@
+{% extends 'user_detail/user_detail_base.html' %}
+{% block confirmation_for_delete %}
+
+
+
+<div class="card" style="margin-left:20vw;margin-right:20vw;">
+  <h5 class="card-header">Confirmation
+              <a href="/"><button class="btn btn-danger" style="margin-right:0%;">X</button></a>
+</h5>
+  <div class="card-body">
+    <h5 class="card-title">Are you sure?</h5>
+    <p class="card-text">
+    <form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="pk_num" value={{pk_number}}>
+      <h3>Do you want to delete it..</h3>
+    <button class="btn btn-primary">Yes</button>
+
+</form>
+</p>
+
+
+
+
+  </div>
+</div>
+
+
+
+{% endblock %}

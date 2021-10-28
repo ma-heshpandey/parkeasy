@@ -1,0 +1,16 @@
+{% extends 'places/places_base.html' %}
+
+{% block map %}
+
+<h3>{{name}}</h3>
+{% if name == 'Baneshwor Parking' %}
+
+<p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14130.92710846828!2d85.330999211322!3d27.694683772905243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19b4e4a034ff%3A0x2042b7f7569bbde0!2sPay%20Parking!5e0!3m2!1sen!2snp!4v1590429912723!5m2!1sen!2snp" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe></p>
+{% endif %}
+
+{% if name == 'Tripureshwor Parking' %}
+<p><iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d28260.857200356222!2d85.29559979365844!3d27.69853434680253!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e0!4m0!4m5!1s0x39eb19ad550c904b%3A0x21d3ae251af69d9!2sC-free%20parking%2C%20Tripura%20Marg%2C%20Kathmandu%2044600!3m2!1d27.693593999999997!2d85.31376!5e0!3m2!1sen!2snp!4v1613588043037!5m2!1sen!2snp" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe></p>
+{% endif %}
+
+
+{% endblock %}

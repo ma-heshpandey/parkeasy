@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block contact_us %}
+<div class="card" style="margin-left:10%;margin-right:10%;height:100%;margin-bottom:5%;padding-left:5%;padding-right:5%;">
+<h5 style="text-align:center;margin-bottom:2%;margin-top:2%;">Park Easy</h5>
+  <form>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">First Name</label>
+      <input type="text" class="form-control" id="inputEmail4" placeholder="Shyam">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Last Name</label>
+      <input type="text" class="form-control" id="inputPassword4" placeholder="Sharma">
+    </div>
+
+  </div>
+
+
+  <div class="form-group">
+    <label for="inputAddress">Address</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="Kathmandu,Kalanki">
+  </div>
+
+  <div class="form-group">
+    <label for="inputEmail">Gmail</label>
+    <input type="email" class="form-control" id="inputEmail" placeholder="@gmail.com">
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Description</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+
+
+
+
+  <button type="submit" class="btn btn-primary">Contact Us</button>
+</form>
+  </div>
+
+</div>
+
+{% endblock %}

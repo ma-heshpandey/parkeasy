@@ -1,0 +1,551 @@
+{% extends 'admin_function/admin_function_base.html' %}
+
+{% block all_function %}
+{% autoescape off %}
+
+<p>
+<a href="{% url 'place_space:space' place_name %}"><button class="btn btn-primary" >Book Place</button></a>
+
+
+ <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Payment
+  </button>
+
+
+<!--  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="display:inline;">-->
+<!--    Payment-->
+<!--  </a>-->
+ <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+
+    Vehicle Entry
+ </button>
+
+     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample">
+ Vehicle Detail
+     </button>
+
+
+     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample5" aria-expanded="false" aria-controls="collapseExample">
+ My Bookings
+     </button>
+
+
+</p>
+
+
+
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <form method="POST" action="{% url 'admin_function:payment' place_name %}">
+
+        {% csrf_token %}
+<!--        <p>Space Number</p><hr>-->
+<!--        <label for="SpaceNumberCar">Car 'C'</label>-->
+<!--        <input id="SpaceNumberCar" type="radio" name="SpaceRelated" value="C" required>-->
+<!--        <p>-->
+<!--        <label for="SpaceNumberBike">Bike 'B'</label>-->
+<!--        <input id="SpaceNumberBike" type="radio" name="SpaceRelated" value="B" required>-->
+<!--        </p>-->
+        {{payment_form.as_p}}
+
+<!--        <input type="text" name="SpaceNumber" required>-->
+        <button class="btn btn-primary">Submit</button>
+
+    </form>
+  </div>
+</div>
+
+<div class="collapse" id="collapseExample2">
+  <div class="card card-body">
+
+      <p>Entery For Vehicle</p><hr>
+      <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="entryForUser">
+          <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" >Close</button>
+        </form>
+  </div>
+
+
+
+
+   <div class="container">
+
+       <div class="row">
+
+           <div class="col-6 border border-primary" id="bikeDisplay" >
+                <p>Bike</p><hr>
+           </div>
+           <div class="col-6 border border-primary" id="carDisplay">
+               <p>Car</p><hr>
+           </div>
+
+
+       </div>
+
+
+   </div>
+
+</div>
+
+
+
+<div class="collapse" id="collapseExample5">
+  <div class="card card-body">
+
+      <table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+<!--      <th scope="col">S.N</th>-->
+      <th scope="col">Name</th>
+      <th scope="col">Vehicle Number</th>
+      <th scope="col">Space Number</th>
+      <th scope="col">Vehicle Type</th>
+      <th scope="col">Payment</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+{% if list_of_bike_to_present_in_table_for_admin %}
+
+   {% for name,vehicle_number,space_number,type in list_of_bike_to_present_in_table_for_admin %}
+    <tr>
+<!--      <th scope="row"></th>-->
+      <td>{{name}}</td>
+      <td>{{vehicle_number}}</td>
+      <td>{{space_number}}</td>
+      <td>{{type}}</td>
+      <td><a href="{% url 'admin_function:display_payment' name vehicle_number space_number place_name %}"><button class="btn btn-success"><span style="color:black;">Payment</span></button></a></td>
+
+    </tr>
+   {% endfor %}
+{% endif %}
+
+{% if list_of_car_to_present_in_table_for_admin %}
+   {% for name,vehicle_number,space_number,type in list_of_car_to_present_in_table_for_admin %}
+    <tr>
+<!--      <th scope="row">1</th>-->
+      <td>{{name}}</td>
+      <td>{{vehicle_number}}</td>
+      <td>{{space_number}}</td>
+      <td>{{type}}</td>
+        <td><a href="{% url 'admin_function:display_payment' name vehicle_number space_number place_name %}"><button class="btn btn-success"><span style="color:black;">Payment</span></button></a></td>
+    </tr>
+
+   {% endfor %}
+
+{% endif %}
+
+  </tbody>
+</table>
+
+
+
+
+
+
+      </div>
+</div>
+
+<div class="collapse" id="collapseExample4">
+  <div class="card card-body">
+
+      <p>Search For Vehicle</p><hr>
+      <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchForVehicleInSpace">
+          <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" >Close</button>
+        </form>
+  </div>
+<!--    for displaying vehicle-->
+      <div class="card card-body">
+          <div id="show_all_user_booked_in_that_space">
+          </div>
+      </div>
+</div>
+
+
+
+<div id="toDisplay">
+
+</div>
+
+<div class="card">
+  <div class="card-body">
+      <h5 class="card-title">Booking List</h5>
+
+{% if list_of_bike_to_present_in_table or list_of_car_to_present_in_table %}
+<div style="height:100%">
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+<!--      <th scope="col">S.N</th>-->
+      <th scope="col">Name</th>
+      <th scope="col">Vehicle Number</th>
+      <th scope="col">Space Number</th>
+      <th scope="col">Vehicle Type</th>
+      <th scope="col">Payment</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+   {% for name,vehicle_number,space_number,type in list_of_bike_to_present_in_table %}
+    <tr>
+<!--      <th scope="row"></th>-->
+      <td>{{name}}</td>
+      <td>{{vehicle_number}}</td>
+      <td>{{space_number}}</td>
+      <td>{{type}}</td>
+      <td><a href="{% url 'admin_function:display_payment' name vehicle_number space_number place_name %}"><button class="btn btn-success"><span style="color:black;">Payment</span></button></a></td>
+
+    </tr>
+   {% endfor %}
+
+   {% for name,vehicle_number,space_number,type in list_of_car_to_present_in_table %}
+    <tr>
+<!--      <th scope="row">1</th>-->
+      <td>{{name}}</td>
+      <td>{{vehicle_number}}</td>
+      <td>{{space_number}}</td>
+      <td>{{type}}</td>
+        <td><a href="{% url 'admin_function:display_payment' name vehicle_number space_number place_name %}"><button class="btn btn-success"><span style="color:black;">Payment</span></button></a></td>
+    </tr>
+
+   {% endfor %}
+
+{% endif %}
+
+  </tbody>
+</table>
+    </div>
+  </div>
+
+</div>
+{% endautoescape %}
+{% endblock %}
+
+{% block script %}
+{% autoescape off %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+    let vehicle_detail_in_script=[]
+    let vehicle_number_in_script=[]
+
+    {% for owner,vehicle_number,vehicle_type,space_number in vehicle_list_detail %}
+        vehicle_detail_in_script.push(`{{owner}} `+`{{vehicle_number}} `+`{{vehicle_type}} `+`{{space_number}}`)
+
+
+    {% endfor %}
+
+
+    {% for vehicle_number in list_of_vehicle_number %}
+
+        vehicle_number_in_script.push('{{vehicle_number}}')
+
+    {% endfor %}
+
+
+
+
+
+
+    let inputElementForSearch=document.getElementById('entryForUser')
+     inputElementForSearch.addEventListener('input',function(e){
+        textEnterByUser=document.getElementById('entryForUser').value
+
+        for(i=0;i<vehicle_detail_in_script.length;i++){
+
+
+            if (vehicle_detail_in_script[i].toLowerCase().endsWith(textEnterByUser.toLowerCase()) && textEnterByUser!=""){
+
+                searched_list_to_display=document.createElement('button')
+                searched_list_to_display.className='btn btn-secondary btn-block checking'
+                button_element=document.getElementsByClassName('checking')
+                console.log(button_element)
+                var matched
+                if (Array.from(button_element).length==0){
+                                searched_list_to_display.innerHTML=vehicle_detail_in_script[i]
+                                if (vehicle_detail_in_script[i].includes('Bike')){
+                                    bikeElem=document.getElementById('bikeDisplay')
+                                    link_to_display=document.createElement('a')
+                                    link_to_display.setAttribute('onclick',`buttonClickYes(this,${i})`)
+                                    paragraph=document.createElement('p')
+                                    bikeElem.append(paragraph)
+                                    paragraph.appendChild(link_to_display)
+                                    link_to_display.appendChild(searched_list_to_display)
+
+
+                                }
+                                if (vehicle_detail_in_script[i].includes('Car')){
+
+                                    carElem=document.getElementById('carDisplay')
+                                    link_to_display=document.createElement('a')
+                                    link_to_display.setAttribute('onclick',`buttonClickYes(this,${i})`)
+                                    paragraph=document.createElement('p')
+                                    carElem.append(paragraph)
+                                    paragraph.appendChild(link_to_display)
+                                    link_to_display.appendChild(searched_list_to_display)
+
+
+                                }
+
+
+<!--                                document_to_present=document.getElementById('toDisplay')-->
+<!--                                link_to_display=document.createElement('a')-->
+<!--                                link_to_display.setAttribute('onclick',`buttonClickYes(this,${i})`)-->
+<!--                                document_to_present.appendChild(link_to_display)-->
+<!--                                link_to_display.appendChild(searched_list_to_display)-->
+
+                                button_element=document.getElementsByClassName('checking')
+                }
+
+                else{
+                    console.log('i am inside else ')
+                    Array.from(button_element).forEach( function(element){
+
+                        if (element.innerText==vehicle_detail_in_script[i])
+                        {
+                                 matched=true
+                                console.log('already present')
+                        }
+                        else{
+
+                            }
+
+                    })
+                    if (matched!=true){
+                                searched_list_to_display.innerHTML=vehicle_detail_in_script[i]
+                                if (vehicle_detail_in_script[i].includes('Bike')){
+                                    bikeElem=document.getElementById('bikeDisplay')
+                                    link_to_display=document.createElement('a')
+                                    link_to_display.setAttribute('onclick',`buttonClickYes(this,${i})`)
+                                    paragraph=document.createElement('p')
+                                    bikeElem.append(paragraph)
+                                    paragraph.appendChild(link_to_display)
+                                    link_to_display.appendChild(searched_list_to_display)
+
+
+
+                                }
+
+                                if (vehicle_detail_in_script[i].includes('Car')){
+                                    carElem=document.getElementById('carDisplay')
+                                    link_to_display=document.createElement('a')
+                                    link_to_display.setAttribute('onclick',`buttonClickYes(this,${i})`)
+                                    paragraph=document.createElement('p')
+                                    carElem.append(paragraph)
+                                    paragraph.appendChild(link_to_display)
+                                    link_to_display.appendChild(searched_list_to_display)
+
+
+
+                                }
+
+
+
+
+
+
+
+                    }
+
+                }
+
+
+           }
+        }
+
+
+
+
+
+
+
+        console.log('yes')
+
+
+        console.log(textEnterByUser)
+
+
+         if (textEnterByUser=="" || (textEnterByUser.length==1)){
+             button_element=document.getElementById('bikeDisplay')
+
+             let paras = document.getElementsByClassName('checking')
+             if (paras!=null){
+                    array_present=Array.from(paras)
+                    while (button_element.children[2]) {
+                        button_element.removeChild(button_element.lastChild);
+                      }
+
+             }
+         }
+
+
+         if (textEnterByUser=="" || (textEnterByUser.length==1)){
+             button_element=document.getElementById('carDisplay')
+
+             let paras = document.getElementsByClassName('checking')
+             if (paras!=null){
+                    array_present=Array.from(paras)
+                    while (button_element.children[2]) {
+                        button_element.removeChild(button_element.lastChild);
+                      }
+
+             }
+         }
+
+
+
+
+
+     let it_contains_type_letter_for_bike=false
+     for(i=0;i<vehicle_detail_in_script.length;i++){
+
+         if (vehicle_detail_in_script[i].toLowerCase().endsWith(textEnterByUser.toLowerCase())){
+                     it_contains_type_letter_for_bike=true  //to check whether three letter are pressed
+        }
+
+
+    }
+    if (it_contains_type_letter_for_bike==false){
+                    console.log('i am to delete')
+                     button_element=document.getElementById('bikeDisplay')
+
+                     let paras = document.getElementsByClassName('checking')
+                     if (paras!=null){
+                        array_present=Array.from(paras)
+                        while (button_element.children[2]) {
+                            button_element.removeChild(button_element.lastChild);
+                        }
+                     }
+    }
+
+
+    let it_contains_type_letter_for_car=false
+     for(i=0;i<vehicle_detail_in_script.length;i++){
+
+         if (vehicle_detail_in_script[i].toLowerCase().endsWith(textEnterByUser.toLowerCase())){
+                     it_contains_type_letter_for_car=true  //to check whether three letter are pressed
+        }
+
+
+    }
+    if (it_contains_type_letter_for_car==false){
+                    console.log('i am to delete')
+                     button_element=document.getElementById('carDisplay')
+
+                     let paras = document.getElementsByClassName('checking')
+                     if (paras!=null){
+                        array_present=Array.from(paras)
+                        while (button_element.children[2]) {
+                            button_element.removeChild(button_element.lastChild);
+                        }
+                     }
+    }
+
+
+
+
+
+     })
+
+
+<!--below is for ajax-->
+
+
+
+
+
+
+function buttonClickYes(element,i){
+
+
+related_button=element.firstElementChild
+
+
+const xhr=new XMLHttpRequest();
+
+xhr.open('GET',`/vehicle_info/check_in/${vehicle_number_in_script[i]}/`,true); //sends get request in mentioned url
+
+xhr.onprogress=function(){
+console.log('on')
+}
+
+
+xhr.onload = function (){
+alert('user is checked in')
+element.removeChild(related_button)
+
+vehicle_number_in_script.splice(i, 1);  //delete the item to restrict in showing in search
+vehicle_detail_in_script.splice(i, 1);
+}
+
+xhr.send()
+
+console.log('i am at last')
+}
+
+
+<!--for payment form-->
+
+placeElem=document.getElementById('id_place_name')
+placeElem.value='{{place_name}}'
+
+
+<!--for searching vehicle-->
+space_number_of_vehicle=document.getElementById('searchForVehicleInSpace')
+space_number_of_vehicle.addEventListener('input',function(e){
+
+    user_input=e.target.value
+    if (user_input.length>=2){
+                  url=`/admin_function/fetch_booked_to_show_for_admin/${user_input}/{{place_name}}`
+                  fetch(url).then((response)=>{
+                                  return response.json();
+
+                  }).then((data)=>{
+                                      console.log(data)
+<!--                                      console.log(data.bike.length)-->
+<!--                                      console.log(data.bike[0])-->
+
+ booked_date=`<div class="card">
+                                                                        <div class="card-body">The Space is booked For <table class="table table-bordered">
+                                                                          <thead>
+                                                                            <tr>
+
+                                                                              <th scope="col">User Name</th>
+                                                                              <th scope="col">Full Name</th>
+                                                                              <th scope="col">Entering Time</th>
+                                                                              <th scope="col">Leaving Time</th>
+                                                                              <th scope="col">Vehicle Number</th>
+                                                                              <th scope="col">Booked For</th>
+                                                                              <th scope="col">Manage</th>
+
+                                                                            </tr>
+                                                                          </thead>
+                                                                          <tbody>`
+                                                        for (i=0;i<data.bike.length;i++){
+                                                            console.log(data.bike[i])
+                                                            booked_date=booked_date+`<tr><td>`+data.bike[i].UserName+`<a href="/admin_function/delete_space_by_admin/${data.bike[i].vehicle_number}/${data.bike[i].space_number}/{{place_name}}">`+`<i class="far fa-trash-alt" style="font-size:20px;color:red;"></i></a></td><td>`+data.bike[i].FullName+`</td><td>`+data.bike[i].entering_time+`</td><td>`+data.bike[i].leaving_time+`</td><td>`+data.bike[i].vehicle_number+`</td><td>`+data.bike[i].booked_for+`</td><td>`+`<a href='/admin_function/manage_the_space/${data.bike[i].vehicle_number}/${data.bike[i].space_number}/{{place_name}}/${data.bike[i].UserName}'>Click here</a>`+`</td></tr>`
+
+                                                        }
+                                                        booked_date=booked_date+'</tbody></table></div></div>'
+                                                        booked_date_element=document.getElementById('show_all_user_booked_in_that_space')
+                                                        console.log(booked_date_element)
+                                                        booked_date_element.innerHTML=booked_date
+
+
+                    })
+
+    }
+})
+
+
+</script>
+
+
+
+
+{% endautoescape %}
+
+{% endblock %}
