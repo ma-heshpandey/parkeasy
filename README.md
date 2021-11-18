@@ -1,6 +1,6 @@
 # parkeasy
 Hosted in python anywhere
-#Back-End:
+# Back-End:
           Python ,Django 
-#Front-End:
+# Front-End:
           HTML,CSS,JavaScript
