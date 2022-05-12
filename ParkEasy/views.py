@@ -47,9 +47,9 @@ def user_login(request):
     if request.method=="POST":
             name = request.POST.get('username')
             password = request.POST.get('password')
-            print('ma login vitra chu')
+            
             user = authenticate(request, username=name, password=password)
-            print('i am in')
+          
             if user is not None:
                 if user.admin is True:
                     return redirect('/')
@@ -94,7 +94,7 @@ def user_login(request):
                     messages.info(request,'You are not registered! Please register')
                     return render(request, 'user_login_form.html')
     else:
-        print('ma login vitra chu')
+        
         return render(request,'user_login_form.html')
 
 
